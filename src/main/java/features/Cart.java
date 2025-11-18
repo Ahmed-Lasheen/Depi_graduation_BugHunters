@@ -1,7 +1,13 @@
 package features;
 
-public class CartFeatureTest extends BaseClass {
-    public static void viewCart()
+import features.BaseClass;
+import org.openqa.selenium.By;
+
+import static features.BaseClass.driver;
+
+public class Cart extends BaseClass {
+    public static void viewCart(String user
+    )
     {
         login(user);
         System.out.println("Testing cart for: " + user);

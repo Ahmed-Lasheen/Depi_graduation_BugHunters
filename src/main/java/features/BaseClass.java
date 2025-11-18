@@ -1,4 +1,4 @@
-package org.example;
+package features;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class BaseClass {
-    protected WebDriver driver;
+    protected static WebDriver driver;
 
     @BeforeMethod
     public void Open() {
@@ -22,7 +22,7 @@ public abstract class BaseClass {
     }
 
 
-    protected void login(String username) {
+    protected static void login(String username) {
         driver.findElement(By.id("user-name")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();

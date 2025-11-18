@@ -1,9 +1,11 @@
 package features;
 
-public class Cart {
+public class CartFeatureTest extends BaseClass {
     public static void viewCart()
     {
-        //Ensures navigating to the cart displays all selected items correctly.
+        login(user);
+        System.out.println("Testing cart for: " + user);
+        driver.findElement(By.id("shopping_cart_container")).click();
     }
     public static void removeItem()
     {

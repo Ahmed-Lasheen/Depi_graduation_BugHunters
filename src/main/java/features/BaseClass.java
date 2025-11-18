@@ -21,14 +21,14 @@ public abstract class BaseClass {
         driver.navigate().to("https://www.saucedemo.com/");
     }
 
-    @Test(dataProvider = "usersProvider")
+
     protected void login(String username) {
         driver.findElement(By.id("user-name")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
     }
 
-    @AfterMethod
+
     public void teardown() {
         if (driver != null) {
             driver.quit();

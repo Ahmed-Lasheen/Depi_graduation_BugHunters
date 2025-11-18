@@ -8,6 +8,17 @@ import java.util.List;
 
 import static features.BaseClass.driver;
 
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import static features.BaseClass.driver;
+import static features.BaseClass.login;
+import static features.Checkout.finishOrder;
+import static features.Checkout.stepOne;
+import static features.Products.addSingleItem;
+import static features.Cart.viewCart;
+
 public class Order {
     public static boolean confirmationDisplay()
     {
@@ -26,10 +37,17 @@ public class Order {
         // 4. All must be present
         return titleCorrect && messageCorrect && imagePresent;
     }
-
-    public static void backHomeNavig()
+    public void backHomeNavig()
     {
-        //Ensures that clicking “Back Home” returns the user to the Products page after a completed order.
+        addSingleItem();
+        viewCart();
+        stepOne();
+        finishOrder();
+        driver.findElement(By.id("back-to-products")).click();
+        Assert.assertTrue(
+                driver.getCurrentUrl().contains("inventory.html"),
+                "inventory did not open!"
+        );
     }
     public static boolean isElementPresent(WebDriver driver, By by) {
         List<WebElement> elements = driver.findElements(by);

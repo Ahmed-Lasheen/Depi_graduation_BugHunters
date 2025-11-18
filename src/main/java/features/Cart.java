@@ -1,24 +1,33 @@
 package features;
 
-import features.BaseClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import java.util.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-import static features.BaseClass.driver;
+import java.util.List;
 
-public class Cart extends BaseClass {
-    public static void viewCart(String user)
+import static features.Products.addMultipleItems;
+
+public class Cart extends BaseClass
+{
+    public void viewCart()
     {
-        login(user);
-        System.out.println("Testing cart for: " + user);
         driver.findElement(By.id("shopping_cart_container")).click();
+        Assert.assertTrue(
+                driver.getCurrentUrl().contains("cart.html"),
+                "Cart page did NOT open!"
+        );
     }
-    public static void removeItem()
+
+    public void removeItem(String productID)
     {
-        //Tests removing an item from the cart and checks for proper update of the cart content.
+        driver.findElement(By.id(productID)).click();
+        boolean removed = driver.findElements(By.id(productID)).isEmpty();
+        Assert.assertTrue(removed, "Item with ID '" + productID + "' was NOT removed!");
     }
     public static boolean verifyCartBadge()
     {

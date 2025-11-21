@@ -1,4 +1,4 @@
-package org.example;
+package features;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,35 +6,45 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Base class for all tests.
+ * Contains the shared WebDriver instance and login helper.
+ */
 public abstract class BaseClass {
-    protected WebDriver driver;
+
+    // Shared static driver across all classes
+    public static WebDriver driver;
 
     @BeforeMethod
-    public void Open() {
+    public void setUp() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.navigate().to("https://www.saucedemo.com/");
     }
 
-    @Test(dataProvider = "usersProvider")
     protected void login(String username) {
         driver.findElement(By.id("user-name")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
     }
+    @BeforeMethod
+    public void resetCartState() {
+        CartState.reset();
+    }
 
     @AfterMethod
-    public void teardown() {
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
-    public List<String> users = Arrays.asList(
+
+    // Users used for data provider
+    private final List<String> users = Arrays.asList(
             "standard_user",
             "locked_out_user",
             "problem_user",
@@ -44,8 +54,7 @@ public abstract class BaseClass {
     );
 
     @DataProvider(name = "usersProvider")
-    public Object[] userProvider() {
+    public Object[] usersProvider() {
         return users.toArray();
     }
 }
-
